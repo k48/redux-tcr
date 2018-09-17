@@ -19,7 +19,7 @@
     "dev": "rollup -c -w",
     "test": "jest",
     "pretest": "npm run build",
-    "prepublish": "npm run build"
+    "prepare": "npm run build"
   },
   "files": [
     "dist"

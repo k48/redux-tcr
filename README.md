@@ -76,7 +76,7 @@ cd redux-tcr
 yarn install
 ```
 
-`npm run build` builds the library to `dist`, generating three files:
+`yarn build` builds the library to `dist`, generating three files:
 
 * `dist/state.cjs.js`
     A CommonJS bundle, suitable for use in Node.js, that `require`s the external dependency. This corresponds to the `"main"` field in package.json
@@ -85,9 +85,9 @@ yarn install
 * `dist/state.umd.js`
     a UMD build, suitable for use in any environment (including the browser, as a `<script>` tag), that includes the external dependency. This corresponds to the `"browser"` field in package.json
 
-`npm run dev` builds the library, then keeps rebuilding it whenever the source files change using [rollup-watch](https://github.com/rollup/rollup-watch).
+`yarn dev` builds the library, then keeps rebuilding it whenever the source files change using [rollup-watch](https://github.com/rollup/rollup-watch).
 
-`npm test` runs tests.
+`yarn test` runs tests.
 
 ## License
 
