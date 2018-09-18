@@ -1,6 +1,6 @@
 {
   "name": "redux-tcr",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Declarative Redux action creators and reducers",
   "main": "dist/state.cjs.js",
   "module": "dist/state.esm.js",

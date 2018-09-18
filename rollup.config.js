@@ -2,7 +2,7 @@ import babel from 'rollup-plugin-babel'
 import pkg from './package.json'
 
 export default [
-	{
+  {
     input: 'src/state.js',
     output: [
       {
@@ -16,13 +16,13 @@ export default [
       },
       {
         file: pkg.module,
-        format: 'es'        
+        format: 'es'
       }
     ],
-		plugins: [
-			babel({
-				exclude: ['node_modules/**']
-			})
-		]
-	}
+    plugins: [
+      babel({
+        exclude: ['node_modules/**']
+      })
+    ]
+  }
 ]

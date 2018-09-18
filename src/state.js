@@ -13,7 +13,7 @@ export const createActions = (config, ns) => {
   let types = {}
   let actions = {}
 
-  Object.entries(config).forEach(([key, value]) => {
+  Object.keys(config).map(key => [key, config[key]]).forEach(([key, value]) => {
     if (isObject(value) && !Array.isArray(value)) {
       const result = createActions(value, key)
       types = {
@@ -61,7 +61,7 @@ export const createActions = (config, ns) => {
 const actionsMap = (config, types) => {
   let map = {}
 
-  Object.entries(config).forEach(([key, value]) => {
+  Object.keys(config).map(key => [key, config[key]]).forEach(([key, value]) => {
     if (isObject(value)) {
       map = {
         ...map,
