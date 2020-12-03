@@ -31,7 +31,7 @@ describe('state utils', () => {
         }),
         fetchFailed: (state, action) => ({ ...state, error: action.payload }),
       },
-      clear: state => ({ ...state, error: null }),
+      clear: (state) => ({ ...state, error: null }),
       reset: () => initialState,
     },
     { ...types, reset: resetType }

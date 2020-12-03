@@ -1,8 +1,8 @@
-const isObject = obj => obj && typeof obj === 'object'
-const toType = str =>
+const isObject = (obj) => obj && typeof obj === 'object'
+const toType = (str) =>
   str
     .split(/(?=[A-Z])/)
-    .map(s => s.toUpperCase())
+    .map((s) => s.toUpperCase())
     .join('_')
 
 export const createActions = (config, ns) => {
@@ -13,44 +13,46 @@ export const createActions = (config, ns) => {
   let types = {}
   let actions = {}
 
-  Object.keys(config).map(key => [key, config[key]]).forEach(([key, value]) => {
-    if (isObject(value) && !Array.isArray(value)) {
-      const result = createActions(value, key)
-      types = {
-        ...types,
-        ...result.types,
-      }
-      actions = {
-        ...actions,
-        ...result.actions,
-      }
-    } else {
-      const type = ns ? `${ns.toUpperCase()}_${toType(key)}` : toType(key)
-      const action = (...args) => {
-        let result = { type }
-        if (value === null) {
+  Object.keys(config)
+    .map((key) => [key, config[key]])
+    .forEach(([key, value]) => {
+      if (isObject(value) && !Array.isArray(value)) {
+        const result = createActions(value, key)
+        types = {
+          ...types,
+          ...result.types,
+        }
+        actions = {
+          ...actions,
+          ...result.actions,
+        }
+      } else {
+        const type = ns ? `${ns.toUpperCase()}_${toType(key)}` : toType(key)
+        const action = (...args) => {
+          let result = { type }
+          if (value === null) {
+            return result
+          }
+
+          const params = Array.isArray(value) ? value : [value]
+          params.forEach((param, index) => {
+            if (typeof param === 'string') {
+              result[param] = args[index]
+            } else if (isObject(param)) {
+              result = {
+                ...result,
+                ...param,
+              }
+            }
+          })
+
           return result
         }
 
-        const params = Array.isArray(value) ? value : [value]
-        params.forEach((param, index) => {
-          if (typeof param === 'string') {
-            result[param] = args[index]
-          } else if (isObject(param)) {
-            result = {
-              ...result,
-              ...param,
-            }
-          }
-        })
-
-        return result
+        types[key] = type
+        actions[key] = action
       }
-
-      types[key] = type
-      actions[key] = action
-    }
-  })
+    })
 
   return {
     types: ns ? { [ns]: types } : types,
@@ -58,22 +60,24 @@ export const createActions = (config, ns) => {
   }
 }
 
-const actionsMap = (config, types) => {
-  let map = {}
-
-  Object.keys(config).map(key => [key, config[key]]).forEach(([key, value]) => {
-    if (isObject(value)) {
-      map = {
-        ...map,
-        ...actionsMap(value, types[key]),
+const actionsMap = (config, types) =>
+  Object.keys(config)
+    .map((key) => [key, config[key]])
+    .reduce((map, [key, value]) => {
+      if (isObject(value)) {
+        return {
+          ...map,
+          ...actionsMap(value, types[key]),
+        }
+      } else if (
+        typeof value === 'function' &&
+        typeof types[key] === 'string'
+      ) {
+        map[types[key]] = value
       }
-    } else if (typeof value === 'function' && typeof types[key] === 'string') {
-      map[types[key]] = value
-    }
-  })
 
-  return map
-}
+      return map
+    }, {})
 
 export const createReducer = (initialState, config, types) => {
   const map = actionsMap(config, types)
@@ -81,10 +85,6 @@ export const createReducer = (initialState, config, types) => {
   return (state = initialState, action) => {
     const reducer = map[action.type]
 
-    if (reducer) {
-      return reducer(state, action)
-    }
-
-    return state
+    return reducer ? reducer(state, action) : state
   }
 }

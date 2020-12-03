@@ -1,7 +1,7 @@
 {
   "name": "redux-tcr",
-  "version": "0.0.3",
-  "description": "Declarative Redux action creators and reducers",
+  "version": "0.0.4",
+  "description": "Declarative Redux action types, creators and reducers",
   "main": "dist/state.cjs.js",
   "module": "dist/state.esm.js",
   "browser": "dist/state.umd.js",
@@ -25,13 +25,21 @@
     "dist"
   ],
   "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.9.0",
-    "@babel/preset-env": "^7.9.0",
+    "@babel/core": "^7.12.9",
+    "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
+    "@babel/preset-env": "^7.12.7",
+    "@rollup/plugin-babel": "^5.2.2",
     "babel-core": "^6.26.3",
-    "babel-jest": "^25.2.6",
-    "jest": "^25.2.7",
-    "rollup": "^2.3.3",
-    "rollup-plugin-babel": "^4.4.0"
+    "babel-jest": "^26.6.3",
+    "husky": "^4.3.0",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1",
+    "pretty-quick": "^3.1.0",
+    "rollup": "^2.34.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }

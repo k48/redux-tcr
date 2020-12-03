@@ -1,4 +1,4 @@
-import babel from 'rollup-plugin-babel'
+import babel from '@rollup/plugin-babel'
 import pkg from './package.json'
 
 export default [
@@ -8,21 +8,22 @@ export default [
       {
         file: pkg.browser,
         format: 'umd',
-        name: 'state'
+        name: 'state',
       },
       {
         file: pkg.main,
-        format: 'cjs'
+        format: 'cjs',
       },
       {
         file: pkg.module,
-        format: 'es'
-      }
+        format: 'es',
+      },
     ],
     plugins: [
       babel({
-        exclude: ['node_modules/**']
-      })
-    ]
-  }
+        exclude: ['node_modules/**'],
+        babelHelpers: 'bundled',
+      }),
+    ],
+  },
 ]
